@@ -12,5 +12,5 @@ public interface PaymentClient {
 
     record PaymentRequest(Long orderId, Double amount) {}
 
-    record PaymentResponse(Long paymentId, Long orderId, Double amount, String status) {}
+    record PaymentResponse(Long paymentId, Long orderId, Double amount, String status, String paymentMode) {}
 }
