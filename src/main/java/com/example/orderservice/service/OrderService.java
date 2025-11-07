@@ -37,10 +37,6 @@ public class OrderService {
             return new OrderResponse(failedOrder.getId(),failedOrder.getProductId(), failedOrder.getStatus(), failedOrder.getTotalAmount());
         }
 
-//        // 2. Calculate total price and create order
-//        double price = productClient.getProductPrice(request.getProductId());
-//        double totalAmount = price * request.getQuantity();
-
         Order order = new Order();
         order.setProductId(request.getProductId());
         order.setQuantity(request.getQuantity());
@@ -71,73 +67,3 @@ public class OrderService {
         return orderRepository.findAll();
     }
 }
-
-
-//package com.example.orderservice.service;
-//
-//import com.example.orderservice.client.PaymentClient;
-//import com.example.orderservice.client.ProductClient;
-//import com.example.orderservice.entity.Order;
-//import com.example.orderservice.model.OrderRequest;
-//import com.example.orderservice.model.OrderResponse;
-//import com.example.orderservice.repository.OrderRepository;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//@Service
-//public class OrderService {
-//
-//    private final OrderRepository orderRepository;
-//    private final ProductClient productClient;
-//    private final PaymentClient paymentClient;
-//
-//    public OrderService(OrderRepository orderRepository, ProductClient productClient, PaymentClient paymentClient) {
-//        this.orderRepository = orderRepository;
-//        this.productClient = productClient;
-//        this.paymentClient = paymentClient;
-//    }
-//
-//    public OrderResponse createOrder(OrderRequest request) {
-//        // 1. Check product availability
-//        boolean available = productClient.checkAvailability(request.getProductId());
-//        if (!available) {
-//            Order failed = new Order(request.getProductId(), request.getQuantity(), request.getTotalAmount(), "FAILED - OUT_OF_STOCK");
-//            orderRepository.save(failed);
-//            return new OrderResponse(failed.getId(), failed.getStatus(), failed.getTotalAmount());
-//        }
-//
-//        // 2. Create order
-//        double price = productClient.getProductPrice(request.getProductId());
-//        double totalAmount = price * request.getQuantity();
-//
-//        Order order = new Order();
-//        order.setProductId(orderRequest.getProductId());
-//        order.setQuantity(orderRequest.getQuantity());
-//        order.setTotalAmount(orderRequest.getTotalAmount());
-//        order.setStatus("CREATED");
-//
-//        Order savedOrder = orderRepository.save(order);
-//
-//        PaymentClient.PaymentResponse paymentResponse = paymentClient.processPayment(
-//                new PaymentClient.PaymentRequest(savedOrder.getId(), savedOrder.getTotalAmount())
-//        );
-//
-//
-//        savedOrder.setStatus(paymentResponse.status().equalsIgnoreCase("SUCCESS") ? "PAID" : "FAILED - PAYMENT ERROR");
-//        orderRepository.save(savedOrder);
-//
-//
-//        return new OrderResponse(savedOrder.getId(), savedOrder.getStatus(), savedOrder.getTotalAmount());
-//    }
-//
-//    public Optional<Order> getOrderById(Long id) {
-//        return orderRepository.findById(id);
-//    }
-//
-//    public List<Order> getAllOrders() {
-//    }
-//}
-//
-//
